@@ -1,0 +1,47 @@
+version: '3'
+services:
+  server-rest:
+    container_name: 'server-rest'
+    image: azul/zulu-openjdk-alpine:17-jre-latest
+    volumes:
+      - ./rest/server-rest/build/libs/server-rest-0.0.1-SNAPSHOT.jar:/server-rest.jar
+    ports:
+      - "8081:8081"
+    command: [ "java", "-jar", "/server-rest.jar" ]
+    networks:
+      - rest-format
+
+  client-rest:
+    container_name: 'client-rest'
+    image: azul/zulu-openjdk-alpine:17-jre-latest
+    volumes:
+      - ./rest/client-rest/build/libs/client-rest-0.0.1-SNAPSHOT.jar:/client-rest.jar
+    ports:
+      - "8080:8080"
+    command: [ "java", "-jar", "/client-rest.jar" ]
+    networks:
+      - rest-format
+
+  prometheus:
+    container_name: 'prometheus'
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - rest-format
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    container_name: 'grafana'
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - rest-format
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+
+networks:
+  rest-format:
+    driver: bridge
