@@ -10,7 +10,7 @@ import org.xmlsoap.schemas.soap.GetGameResponse;
 @Endpoint
 @SpringBootApplication
 public class ServerSoapApplication {
-  private static final String NAMESPACE_URI = "http://schemas.xmlsoap.org/soap/";
+  private static final String NAMESPACE_URI = "http://schemas.xmlsoap.org/soap";
 
   public static void main(String[] args) {
     SpringApplication.run(ServerSoapApplication.class, args);

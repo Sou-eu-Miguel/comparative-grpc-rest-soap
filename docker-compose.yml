@@ -22,6 +22,33 @@ services:
     networks:
       - rest-format
 
+  server-soap:
+    container_name: 'server-soap'
+    image: azul/zulu-openjdk-alpine:17-jre-latest
+    volumes:
+      - ./soap/server-soap/build/libs/server-soap-0.1.0.jar:/server-soap.jar
+    ports:
+      - "8083:8083"
+    command: [ "java", "-jar", "/server-soap.jar" ]
+    networks:
+      - rest-format
+
+  client-soap:
+    container_name: 'client-soap'
+    image: azul/zulu-openjdk-alpine:11-jre-latest
+    volumes:
+      - ./soap/client-soap/target/client-soap-0.0.1-SNAPSHOT.jar:/client-soap.jar
+    environment:
+      - "WSDL_DOMAIN_URL=http://server-soap:8083/ws/"
+      - "WSDL_URL=http://server-soap:8083/ws/gameDay.wsdl"
+    ports:
+      - "8082:8082"
+    command: [ "java", "-jar", "/client-soap.jar" ]
+    depends_on:
+      - server-soap
+    networks:
+      - rest-format
+
   prometheus:
     container_name: 'prometheus'
     image: prom/prometheus

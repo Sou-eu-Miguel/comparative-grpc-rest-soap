@@ -1,0 +1,17 @@
+server:
+  port: 8082
+
+logging:
+  level:
+    org.springframework.ws.client.MessageTracing: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+wsdl:
+  domain: ${WSDL_DOMAIN_URL:http://localhost:8083/ws/}
+  resource: ${WSDL_URL:http://localhost:8083/ws/gameDay.wsdl}

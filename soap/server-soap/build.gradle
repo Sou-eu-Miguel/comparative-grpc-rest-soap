@@ -58,6 +58,8 @@ bootJar {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'wsdl4j:wsdl4j'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     jaxb("org.glassfish.jaxb:jaxb-xjc")
+    implementation "io.micrometer:micrometer-registry-prometheus:1.11.0"
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

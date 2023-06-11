@@ -3,6 +3,9 @@
 gradle clean build -b ./rest/client-rest/build.gradle.kts
 gradle clean build -b ./rest/server-rest/build.gradle.kts
 
+gradle clean build -b ./soap/server-soap/build.gradle
+mvn clean install -f ./soap/client-soap/pom.xml
+
 docker network create "rest-format"
 echo "Created rest-format"
 
