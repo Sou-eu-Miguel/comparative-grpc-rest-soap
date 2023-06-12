@@ -1,0 +1,14 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package br.imd.servergrpc.proto;
+
+
+service GameDayService {
+  rpc getGameDay(DateRequest) returns (DateResponse);
+}
+
+message DateRequest {}
+
+message DateResponse {
+  string date = 1;
+}
