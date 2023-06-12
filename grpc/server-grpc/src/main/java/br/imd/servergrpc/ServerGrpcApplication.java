@@ -1,9 +1,14 @@
 package br.imd.servergrpc;
 
+import br.imd.servergrpc.proto.GameDayServiceGrpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.ServerInterceptors;
 import io.grpc.protobuf.services.ProtoReflectionService;
+import io.prometheus.client.CollectorRegistry;
 import java.io.IOException;
+import me.dinowernli.grpc.prometheus.Configuration;
+import me.dinowernli.grpc.prometheus.MonitoringServerInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +28,13 @@ public class ServerGrpcApplication {
   }
 
   @Bean
-  public Server startGrpcServer(GameDayImpl gameDay) {
+  public Server startGrpcServer(GameDayImpl gameDay, CollectorRegistry collectorRegistry) {
+    final var monitoringInterceptor = MonitoringServerInterceptor.create(Configuration.cheapMetricsOnly()
+        .withCollectorRegistry(collectorRegistry));
+
     return ServerBuilder.forPort(9090)
-        .addService(gameDay)
+        .addService(ServerInterceptors.intercept(
+            GameDayServiceGrpc.bindService(gameDay), monitoringInterceptor))
         .addService(ProtoReflectionService.newInstance())
         .build();
   }
