@@ -10,3 +10,5 @@ scrape_configs:
           - 'server-rest:8081'
           - 'client-soap:8082'
           - 'server-soap:8083'
+          - 'client-grpc:8084'
+          - 'server-grpc:8085'

@@ -1,0 +1,14 @@
+server:
+  port: 8084
+  host: ${HOST_NAME:localhost}
+
+logging:
+  level:
+    io.grpc.netty.shaded.io.grpc.netty: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+

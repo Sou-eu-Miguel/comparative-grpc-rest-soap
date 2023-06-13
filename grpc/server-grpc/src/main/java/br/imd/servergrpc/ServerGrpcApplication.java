@@ -32,7 +32,7 @@ public class ServerGrpcApplication {
     final var monitoringInterceptor = MonitoringServerInterceptor.create(Configuration.cheapMetricsOnly()
         .withCollectorRegistry(collectorRegistry));
 
-    return ServerBuilder.forPort(9090)
+    return ServerBuilder.forPort(5050)
         .addService(ServerInterceptors.intercept(
             GameDayServiceGrpc.bindService(gameDay), monitoringInterceptor))
         .addService(ProtoReflectionService.newInstance())

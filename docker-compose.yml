@@ -49,6 +49,33 @@ services:
     networks:
       - rest-format
 
+
+  server-grpc:
+    container_name: 'server-grpc'
+    image: azul/zulu-openjdk-alpine:17-jre-latest
+    volumes:
+      - ./grpc/server-grpc/build/libs/server-grpc-0.0.1-SNAPSHOT.jar:/server-grpc.jar
+    ports:
+      - "8085:8085"
+    command: [ "java", "-jar", "/server-grpc.jar" ]
+    networks:
+      - rest-format
+
+  client-grpc:
+    container_name: 'client-grpc'
+    image: azul/zulu-openjdk-alpine:17-jre-latest
+    volumes:
+      - ./grpc/client-grpc/build/libs/client-grpc-0.0.1-SNAPSHOT.jar:/client-grpc.jar
+    ports:
+      - "8084:8084"
+    environment:
+      - "HOST_NAME=server-grpc"
+    command: [ "java", "-jar", "/client-grpc.jar" ]
+    depends_on:
+      - server-grpc
+    networks:
+      - rest-format
+
   prometheus:
     container_name: 'prometheus'
     image: prom/prometheus
